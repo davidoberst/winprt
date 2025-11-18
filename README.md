@@ -1,6 +1,6 @@
 # winprt - Port Management Tool
--Windows CLI tool to open and close firewall ports.
--Usage:
+--Windows CLI tool to open and close firewall ports.
+--Usage:
 
 <pre>
 [1] Open a Port

@@ -55,7 +55,50 @@ def CreateFirewallRule():
  else:
   print("")
   print("Error creating the firewall rule, in order to use the tool you need to have root priviliges.")
+
+#---------OPEN PORTS FUNCTIONS--------------------
+def openPort3389():
+ openPort3389 = (r'Set-ItemProperty -Path "HKLM:\System\CurrentControlSet\Control\Terminal Server" -Name "fDenyTSConnections" -Value 0') #ACTIVATE REMOTE DESKTOP IN WINDOWS 
+
+def openPort445():
+ openPort445 = ('Set-Service -Name "LanmanServer" -StartupType Automatic; Start-Service -Name "LanmanServer"') 
+
+def openPort139():
+ openPort139 = (
   
+ )
+
+def openPort135():
+ openPort135 = (
+  
+ )
+
+def openPort389():
+ openPort389 = (
+  
+ )
+
+def openPort539():
+ openPort389 = (
+  
+ )
+
+def openPort3268():
+ openPort3268 = (
+  
+ )
+
+ def openPort53():
+  openPort53 = (
+  
+ )
+
+
+ def openPort88():
+  openPort388 = (
+  
+ )
+
 #USER ENTRY
 port = input("Wich port do you want to open? -->  ")
 time.sleep(1)

@@ -1,11 +1,13 @@
+
 import subprocess
 import time
 from pyfiglet import figlet_format
 import sys
+
+#BANNER  
 logo = figlet_format("winprt", font="larry3d")
 print("\033[31m" + logo + "\033[0m")
 print("\033[33m" + "v.0.0.1 | by davidoberst | https://github.com/davidoberst" + "\033[0m")
-
 print("\033[32m" + "-"*64 + "\033[0m")
 print("\033[32m" + "[::] 3389     [::] 139      [::] 389     [::] 539      [::] 53" + "\033[0m")
 print("\033[32m" + "[::] 445      [::] 135      [::] 636     [::] 3268     [::] 88" + "\033[0m")
@@ -77,20 +79,22 @@ def CreateFirewallRule():
   print("Error creating the firewall rule, in order to use the tool you need to have root privileges.") 
 #---------END CREATE FIREWALL RULE FUNCTION------------------
 
- 
 
 #---------OPEN PORTS FUNCTIONS--------------------
 def openPort3389(): #ACTIVATE REMOTE DESKTOP IN WINDOWS 
- openPort3389 = (r'Set-ItemProperty -Path "HKLM:\System\CurrentControlSet\Control\Terminal Server" -Name "fDenyTSConnections" -Value 0') 
+ openPort3389 = r'& { Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server" -Name "fDenyTSConnections" -Value 0; Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp" -Name "UserAuthentication" -Value 1; Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp" -Name "SecurityLayer" -Value 1; Set-Service -Name TermService -StartupType Automatic; Start-Service -Name TermService; Enable-NetFirewallRule -DisplayGroup "Remote Desktop" }'
+
  op3389Result = subprocess.run(
     ["powershell", "-Command",openPort3389],
     capture_output=True,
     text=True
  )
+
  if op3389Result.returncode == 0:
   time.sleep(1)
   print("")
-  print(f"Port {port} was openned succesfully! ")
+  print("[::] RDP (Remote Desktop) service is now enabled and ready for connections.")
+  print("")
  else:
   print(f"Error opening port {port}")
 

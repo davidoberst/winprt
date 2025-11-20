@@ -2,12 +2,14 @@ import subprocess
 import time
 from pyfiglet import figlet_format
 import sys
-print(figlet_format("winprt", font="small"))
-print("v.0.0.1","by davidoberst","https://github.com/davidoberst",sep=" | ")
-print("-"*64)
-print("[::] 3389     [::] 139      [::] 389     [::] 539      [::] 53")
-print("[::] 445      [::] 135      [::] 636     [::] 3268     [::] 88")
-print("-"*64)
+logo = figlet_format("winprt", font="larry3d")
+print("\033[31m" + logo + "\033[0m")
+print("\033[33m" + "v.0.0.1 | by davidoberst | https://github.com/davidoberst" + "\033[0m")
+
+print("\033[32m" + "-"*64 + "\033[0m")
+print("\033[32m" + "[::] 3389     [::] 139      [::] 389     [::] 539      [::] 53" + "\033[0m")
+print("\033[32m" + "[::] 445      [::] 135      [::] 636     [::] 3268     [::] 88" + "\033[0m")
+print("\033[32m" + "-"*64 + "\033[0m")
 
 def conditions():
     if port == "3389":
@@ -133,7 +135,8 @@ def openPort88():
  )
 
 #USER ENTRY
-port = input("Wich port do you want to open? -->  ")
+port = input("\033[34mWich port do you want to open? -->  \033[0m")
+
 time.sleep(1)
 CreateFirewallRule()
 

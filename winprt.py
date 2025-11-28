@@ -20,8 +20,6 @@ def conditions():
         openPort139()
     elif port == "135":
         openPort135()
-    elif port == "389":
-        openPort389()
     elif port == "539":
         openPort539()
     elif port == "3268":
@@ -123,9 +121,6 @@ def openPort139():
    time.sleep(1)
    print(f"Error opening port {port}")
 
-#Start-Service RPCSS
-
-
 def openPort135():
  openPort135 = (
  'Start-Service RpcEptMapper;Start-Service RPCSS'
@@ -136,22 +131,21 @@ def openPort135():
  else:
    print(f"Error opening port {port}")
    
-   
-
-def openPort389():
- openPort389 = (
-  
- )
-
-def openPort539():
- openPort389 = (
-  
- )
 
 def openPort3268():
  openPort3268 = (
-  
+    "Install-WindowsFeature AD-Domain-Services; "
+    "Install-ADDSForest -DomainName \"lab.local\" -Force"
  )
+ openPort3268Result = subprocess.run(["powershell","-Command",openPort3268],capture_output=True,text=True)
+ if openPort3268Result == 0:
+   print("[::] TCP Active Directory service (3268) is now enabled and ready for connections. ")
+ else:
+   print(f"Error opening port {port}")
+   
+   
+   
+
 
 def openPort53():
   openPort53 = (

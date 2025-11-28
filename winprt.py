@@ -123,11 +123,20 @@ def openPort139():
    time.sleep(1)
    print(f"Error opening port {port}")
 
+#Start-Service RPCSS
+
 
 def openPort135():
  openPort135 = (
-  
+ 'Start-Service RpcEptMapper;Start-Service RPCSS'
  )
+ openPort135Result = subprocess.run(["powershell","-Command",openPort135],capture_output=True,text=True)
+ if openPort135Result == 0:
+   print("[::] RPC Endpoint Mapper (Remote Procedure Call) service is now enabled and ready for connections. ")
+ else:
+   print(f"Error opening port {port}")
+   
+   
 
 def openPort389():
  openPort389 = (

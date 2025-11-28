@@ -9,8 +9,8 @@ logo = figlet_format("winprt", font="larry3d")
 print("\033[31m" + logo + "\033[0m")
 print("\033[33m" + "v.0.0.1 | by davidoberst | https://github.com/davidoberst" + "\033[0m")
 print("\033[32m" + "-"*64 + "\033[0m")
-print("\033[32m" + "[::] 3389     [::] 139      [::] 389     [::] 539      [::] 53" + "\033[0m")
-print("\033[32m" + "[::] 445      [::] 135      [::] 636     [::] 3268     [::] 88" + "\033[0m")
+print("\033[32m" + "[::] 3389     [::] 135" + "\033[0m")
+print("\033[32m" + "[::] 139      [::] 3268" + "\033[0m")
 print("\033[32m" + "-"*64 + "\033[0m")
 
 def conditions():
@@ -20,14 +20,8 @@ def conditions():
         openPort139()
     elif port == "135":
         openPort135()
-    elif port == "539":
-        openPort539()
     elif port == "3268":
         openPort3268()
-    elif port == "53":
-        openPort53()
-    elif port == "88":
-        openPort88()
 
 #---------CREATE FIREWALL RULE FUNCTION------------------
 
@@ -143,20 +137,6 @@ def openPort3268():
  else:
    print(f"Error opening port {port}")
    
-   
-   
-
-
-def openPort53():
-  openPort53 = (
-  
- )
-
-
-def openPort88():
-  openPort388 = (
-  
- )
 
 #USER ENTRY
 port = input("\033[34m[::] Wich port do you want to open? :  \033[0m")

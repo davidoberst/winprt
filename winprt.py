@@ -82,7 +82,6 @@ def CreateFirewallRule():
 
 #---------OPEN PORTS FUNCTIONS--------------------
 def openPort3389(): #ACTIVATE REMOTE DESKTOP IN WINDOWS 
- print("[::] Creating firewall rule for RDP")
  openPort3389 = r'& { Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server" -Name "fDenyTSConnections" -Value 0; Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp" -Name "UserAuthentication" -Value 1; Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp" -Name "SecurityLayer" -Value 1; Set-Service -Name TermService -StartupType Automatic; Start-Service -Name TermService; Enable-NetFirewallRule -DisplayGroup "Remote Desktop" }'
 
  op3389Result = subprocess.run(
@@ -101,20 +100,29 @@ def openPort3389(): #ACTIVATE REMOTE DESKTOP IN WINDOWS
 
 
 def openPort445():
- time.sleep(1)
- print("[::] Creating firewall rule for SMB ")
  openPort445 = ('New-NetFirewallRule -DisplayName "Open Port 445 SMB" -Direction Inbound -Protocol TCP -LocalPort 445 -Action Allow') 
  openPort445Result = subprocess.run (["powershell","-Command",openPort445],capture_output=True,text=True)
  if openPort445Result.returncode == 0:
+   time.sleep(1)
    print("[::] SMB (Server Message Block) service is now enabled and ready for connections. ")
  else:
+   time.sleep(1)
    print(f"Error opening port {port}")
 
 
 def openPort139():
+ 
  openPort139 = (
-  
+ 'Start-Service lanmanserver;Start-Service lmhosts'
  )
+ openPort139Result = subprocess.run(["powershell","-Command",openPort139],capture_output=True,text=True)
+ if openPort139Result == 0:
+   time.sleep(1)
+   print("[::] SMB (Server Message Block) service is now enabled and ready for connections. ")
+ else:
+   time.sleep(1)
+   print(f"Error opening port {port}")
+
 
 def openPort135():
  openPort135 = (
@@ -148,7 +156,7 @@ def openPort88():
  )
 
 #USER ENTRY
-port = input("\033[34mWich port do you want to open? -->  \033[0m")
+port = input("\033[34m[::] Wich port do you want to open? :  \033[0m")
 
 time.sleep(1)
 CreateFirewallRule()

@@ -82,6 +82,7 @@ def CreateFirewallRule():
 
 #---------OPEN PORTS FUNCTIONS--------------------
 def openPort3389(): #ACTIVATE REMOTE DESKTOP IN WINDOWS 
+ print("[::] Creating firewall rule for RDP")
  openPort3389 = r'& { Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server" -Name "fDenyTSConnections" -Value 0; Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp" -Name "UserAuthentication" -Value 1; Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp" -Name "SecurityLayer" -Value 1; Set-Service -Name TermService -StartupType Automatic; Start-Service -Name TermService; Enable-NetFirewallRule -DisplayGroup "Remote Desktop" }'
 
  op3389Result = subprocess.run(
@@ -100,7 +101,15 @@ def openPort3389(): #ACTIVATE REMOTE DESKTOP IN WINDOWS
 
 
 def openPort445():
- openPort445 = ('Set-Service -Name "LanmanServer" -StartupType Automatic; Start-Service -Name "LanmanServer"') 
+ time.sleep(1)
+ print("[::] Creating firewall rule for SMB ")
+ openPort445 = ('New-NetFirewallRule -DisplayName "Open Port 445 SMB" -Direction Inbound -Protocol TCP -LocalPort 445 -Action Allow') 
+ openPort445Result = subprocess.run (["powershell","-Command",openPort445],capture_output=True,text=True)
+ if openPort445Result.returncode == 0:
+   print("[::] SMB (Server Message Block) service is now enabled and ready for connections. ")
+ else:
+   print(f"Error opening port {port}")
+
 
 def openPort139():
  openPort139 = (
